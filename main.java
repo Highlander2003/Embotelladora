@@ -2,22 +2,26 @@ import java.util.concurrent.Semaphore;
 
 class PlantaEmbotelladora {
     private final int MaxCaja = 10; // Capacidad en litros
+    private int totalcaja = 0;
     private int BotellaCaja = 0; // Botellas actuales en la caja
     private Semaphore semaforoCaja = new Semaphore(1); // Semáforo para gestionar el acceso a la caja
     private Semaphore semaforoEmpaquetado = new Semaphore(0); // Semáforo para el empaquetador
 
     public void embotellar(int totalBotellas) throws InterruptedException {
+
         for (int i = 0; i < totalBotellas; i++) { 
             semaforoCaja.acquire(); // Adquirir acceso a la caja
             BotellaCaja++;
+
             System.out.println("Botellas " + (i + 1) + " listas. Botellas en caja: " + BotellaCaja);
             if (BotellaCaja == MaxCaja) {
                 System.out.println("Embotellador: Caja llena, se envía señal al empaquetador.");
+                totalcaja++;                
                 semaforoEmpaquetado.release(); // Señal al empaquetador
                 BotellaCaja = 0; // Reiniciar contador de botellas en caja
             }
             semaforoCaja.release(); 
-            Thread.sleep(1000); // Simular tiempo de embotellado
+            Thread.sleep(100); // Simular tiempo de embotellado
         }
     }
 
@@ -28,7 +32,8 @@ class PlantaEmbotelladora {
             System.out.println("Empaquetador: Empaquetando caja.");
             semaforoCaja.release(); 
             System.out.println("Empaquetador: Caja empaquetada y almacenada.");
-            Thread.sleep(2000); // Simular tiempo de empaquetado
+            System.out.print("Total de cajas almacenadas: " + totalcaja+"\n");
+            Thread.sleep(200); // Simular tiempo de empaquetado
         }
     }
 
