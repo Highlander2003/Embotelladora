@@ -1,3 +1,4 @@
+package Proyect;
 class Embotelladora implements Runnable {
     private Caja caja;
     private int totalBotellas;

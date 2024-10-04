@@ -1,3 +1,4 @@
+package Proyect;
 import java.util.concurrent.Semaphore;
 
 class Caja {

@@ -1,3 +1,4 @@
+package Proyect;
 class Empaquetadora implements Runnable {
     private Caja caja;
 
